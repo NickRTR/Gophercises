@@ -23,7 +23,25 @@ func readCSV() [][]string {
 	return data
 }
 
+func ask(question, answer string) bool {
+	fmt.Printf("%s:", question)
+	var input string
+	fmt.Scan(&input)
+	return input == answer
+}
+
 func main() {
 	data := readCSV()
-	fmt.Println(data)
+
+	correct := 0
+	incorrect := 0
+	for _, quiz := range data {
+		if ask(quiz[0], quiz[1]) {
+			correct++
+		} else {
+			incorrect++
+		}
+	}
+
+	fmt.Printf("\nResult: %d answers correct, %d answers incorrect.\n", correct, incorrect)
 }
