@@ -2,13 +2,14 @@ package main
 
 import (
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"log"
 	"os"
 )
 
 func readCSV() [][]string {
-	f, err := os.Open("problems.csv")
+	f, err := os.Open(file)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -28,6 +29,27 @@ func ask(question, answer string) bool {
 	var input string
 	fmt.Scan(&input)
 	return input == answer
+}
+
+var file string
+var timer int
+
+func init() {
+	var (
+		defaultFile     = "problems.csv"
+		fileDescription = "Change the path to the quiz CSV, the default is \"problems.csv\""
+	)
+	flag.StringVar(&file, "file", defaultFile, fileDescription)
+	flag.StringVar(&file, "f", file, fileDescription+" (shorthand)")
+
+	var (
+		defaultTimer     = 30
+		timerDescription = "Change the Timer duration, the default is set to 30 seconds"
+	)
+	flag.IntVar(&timer, "timer", defaultTimer, timerDescription)
+	flag.IntVar(&timer, "t", timer, timerDescription+" (shorthand)")
+
+	flag.Parse()
 }
 
 func main() {
